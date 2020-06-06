@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>watch</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+   <div id="root">
+       <h3>Watch 用法1：常见用法</h3>
+       <input v-model="message">
+       <span>{{copyMessage}}</span>
+   </div>
+   <div id="root2">
+        <h3>Watch 用法2：绑定用法</h3>
+        <input v-model="message">
+        <span>{{copyMessage}}</span>
+    </div>
+    <div id="root3">
+        <h3>Watch 用法3：deep + handler</h3>
+        <input v-model="deepMessage.a.b">
+        <span>{{copyMessage}}</span>
+    </div>
+    <div id="root4">
+        <h3>Watch 用法4：immediate</h3>
+        <input v-model="message">
+        <span>{{copyMessage}}</span>
+    </div>
+    <div id="root5">
+        <h3>Watch 用法5：绑定多个handler</h3>
+        <input v-model="message">
+        <span>{{copyMessage}}</span>
+    </div>
+    <div id="root6">
+        <h3>Watch 用法6：监听对象属性</h3>
+        <input v-model="deepMessage.a.b">
+        <span>{{copyMessage}}</span>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: '#root',
+        watch: {
+            message(value) {
+                this.copyMessage = value;
+            }
+        },
+        data() {
+            return {
+                message: 'Hello Vue',
+                copyMessage: ''
+            }
+        }
+    })
+    new Vue({
+        el: '#root2',
+        watch: {
+            message: 'handleMessage'
+        },
+        data() {
+            return {
+                message: 'Hello Vue',
+                copyMessage: ''
+            }
+        },
+        methods: {
+            handleMessage(value) {
+                this.copyMessage = value;
+            }
+        }
+    })
+    new Vue({
+        el: '#root3',
+        watch: {
+            deepMessage: {
+                handler: 'handleDeepMessage',
+                deep: true
+            }
+        },
+        data() {
+            return {
+                deepMessage: {
+                    a: {
+                        b: 'Deep Message'
+                    }
+                },
+                copyMessage: ''
+            }
+        },
+        methods: {
+            handleDeepMessage(value) {
+                this.copyMessage = value.a.b
+            }
+        }
+    })
+    new Vue({
+        el: '#root4',
+        watch: {
+            message: {
+                handler: 'handleMessage',
+                immediate: true
+            }
+        },
+        data() {
+            return {
+                message: 'Hello Vue',
+                copyMessage: ''
+            }
+        },
+        methods: {
+            handleMessage(value) {
+                this.copyMessage = value;
+            }
+        }
+    })
+    new Vue({
+        el: '#root5',
+        watch: {
+            message: [{
+                handler: 'handleMessage',
+            },
+            'handleMessage2',
+            function(value) {
+                this.copyMessage = this.copyMessage + '...';
+            }]
+        },
+        data() {
+            return {
+                message: 'Hello Vue',
+                copyMessage: ''
+            }
+        },
+        methods: {
+            handleMessage(value) {
+                this.copyMessage = value;
+            },
+            handleMessage2(value) {
+                this.copyMessage = this.copyMessage + '*';
+            }
+        }
+    })
+    new Vue({
+        el: '#root6',
+        watch: {
+            'deepMessage.a.b': 'handleMessage'
+        },
+        data() {
+            return {
+                deepMessage: { a: { b: 'Hello Vue' } },
+                copyMessage: ''
+            }
+        },
+        methods: {
+            handleMessage(value) {
+                this.copyMessage = value;
+            }
+        }
+    })
+</script>
+</html>

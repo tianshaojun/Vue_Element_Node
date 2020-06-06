@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slot</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>案例1：slot的基本用法</div>
+        <Test>
+            <template v-slot:header="{user}">
+                <div>自定义header({{user.a}})</div>
+            </template>
+            <template v-slot="{user}">
+                <div>自定义body({{user.b}})</div>
+            </template>
+        </Test>
+    </div>
+    <br/>
+    <div id="root2">
+        <div>案例2：Vue2.6新特性 - 动态slot</div>
+        <Test>
+            <template v-slot:[section]="{section}">
+                <div>this is {{section}}</div>
+            </template>
+        </Test>
+        <button @click="change">switch header and body</button>
+    </div>
+    <script>
+        Vue.component('Test', {
+            template:
+             '<div>' +
+               '<slot name="header" :user="obj" :section="\'header\'">' +
+                 '<div>默认header</div>' +
+               '</slot>' +
+               '<slot :user="obj" :section="\'body\'">默认body</slot>' +
+             '</div>',
+             data() {
+                 return {
+                     obj: {a:1,b:2}
+                 }
+             }
+        })
+        new Vue({el: '#root'})
+        new Vue({
+            el: '#root2',
+            data() {
+                return {
+                    section: 'header'
+                }
+            },
+            methods: {
+                change() {
+                    this.section === 'header' ?
+                       this.section = 'default' :
+                       this.section = 'header'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

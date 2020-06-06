@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>$emit & $on</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <button @click="boost">触发事件</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#root',
+            data() {
+                return {
+                    message: 'hello vue'
+                }
+            },
+            created() {
+                this.$on('my_events', this.handleEvents);
+            },
+            methods: {
+                handleEvents(e) {
+                    console.log(this.message, e);
+                },
+                boost() {
+                    this.$emit('my_events', 'my params');
+                }
+            }
+        })
+    </script>
+</body>
+</html>

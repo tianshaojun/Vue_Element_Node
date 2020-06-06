@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>provide & inject</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+   <div id="root">
+       <Test></Test>
+   </div>
+   <script>
+       function registerPlugin() {
+           Vue.component('Test', {
+               template: '<div>{{message}}<Test2 /></div>',
+               provide() {
+                   return {
+                       elTest: this
+                   }
+               },
+               data() {
+                   return {
+                       message: 'message from Test'
+                   }
+               },
+               methods: {
+                   change(component) {
+                       this.message = 'message from' + component; 
+                   }
+               }
+           })
+           Vue.component('Test2', {
+               template: '<Test3 />'
+           })
+           Vue.component('Test3', {
+               template: '<button @click="changeMessage">change</button>',
+               inject: ['elTest'],
+               methods: {
+                   changeMessage() {
+                       this.elTest.change(this.$options._componentTag)
+                   }
+               }
+           })
+       }
+       Vue.use(registerPlugin);
+       new Vue({
+           el: '#root'
+       })
+   </script>
+</body>
+</html>

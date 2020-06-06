@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.extend</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+   <div id="root">
+       <Test :msg="message"></Test>
+   </div>
+   <script>
+       const component = Vue.extend({
+           template: '<div>{{msg}}</div>',
+           props: {
+               msg: {
+                   type: String,
+                   default: 'default message'
+               }
+           },
+           name: 'Test'
+       })
+       Vue.component('Test', component);
+       new Vue({
+           el: '#root',
+           data() {
+               return {
+                   message: 'Test Extend Component'
+               }
+           }
+       })
+   </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+   <div id="root">
+       <div v-loading="isLoading">{{data}}</div>
+       <button @click="update">更新</button>
+   </div>
+   <script>
+       Vue.directive('loading', {
+           update(el, binding, vnode) {
+            //    console.log(el, binding, vnode);
+               if(binding.value) {
+                   const div = document.createElement('div');
+                   div.innerText = '加载中';
+                   div.setAttribute('id', 'loading');
+                   div.style.position = 'absolute';
+                   div.style.left = 0;
+                   div.style.top = 0;
+                   div.style.width = '100%';
+                   div.style.height = '100%';
+                   div.style.display = 'flex';
+                   div.style.justifyContent = 'center';
+                   div.style.alignItems = 'center';
+                   div.style.color = 'white';
+                   div.style.background = 'rgba(0, 0, 0, .7)';
+                   document.body.append(div)
+               } else {
+                   document.body.removeChild(document.getElementById('loading'));
+               }
+           }
+       })
+       new Vue({
+           el: '#root',
+           data() {
+               return {
+                   isLoading: false,
+                   data: ''
+               }
+           },
+           methods: {
+               update() {
+                   this.isLoading = true;
+                   setTimeout(() => {
+                       this.data = '用户数据';
+                       this.isLoading = false;
+                   }, 3000)
+               }
+           }
+       })
+   </script>
+</body>
+</html>
