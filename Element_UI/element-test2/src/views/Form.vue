@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'form1',
+  name: 'local_form',
   data() {
     const userValidator = (rule, value, callback) => {
       if (value.length > 3) {
