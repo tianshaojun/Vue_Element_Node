@@ -11,7 +11,7 @@
 </template>
 
 <script>
-let count = ['表单效验基本用法','表单效验高级用法','333'];
+let count = ['表单效验基本用法','表单效验高级用法','案例'];
 export default {
   name: 'home',
   data() {
@@ -31,6 +31,11 @@ export default {
         if (i == 1) {
           this.$router.push({
             path: '/form2'
+          })
+        }
+        if (i == 2) {
+          this.$router.push({
+            path: '/case'
           })
         }
       }
